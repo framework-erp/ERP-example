@@ -22,9 +22,9 @@ public class AddressBookService {
     @Autowired
     public AddressBookService(JdbcTemplate jdbcTemplate) {
         contactRepository = RepositoryFactory.newInstance(ContactRepository.class,
-                new MySQLRepository(jdbcTemplate, Contact.class));
+                new MySQLRepository<>(jdbcTemplate, Contact.class));
         contactIdGeneratorRepository = SingletonRepositoryFactory.newInstance(ContactIdGeneratorRepository.class,
-                new SingletonRepository(new SnowflakeIdGenerator(1L) {
+                new SingletonRepository<>(new SnowflakeIdGenerator(1L) {
                 }));
     }
 
