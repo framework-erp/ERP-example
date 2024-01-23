@@ -5,7 +5,6 @@ import com.erpexample.repository.ContactIdGeneratorRepository;
 import com.erpexample.repository.ContactRepository;
 import dml.id.entity.SnowflakeIdGenerator;
 import erp.annotation.Process;
-import erp.repository.SingletonRepository;
 import erp.repository.factory.RepositoryFactory;
 import erp.repository.factory.SingletonRepositoryFactory;
 import erp.springjdbc.mysql.MySQLRepository;
@@ -24,8 +23,8 @@ public class AddressBookService {
         contactRepository = RepositoryFactory.newInstance(ContactRepository.class,
                 new MySQLRepository<>(jdbcTemplate, Contact.class));
         contactIdGeneratorRepository = SingletonRepositoryFactory.newInstance(ContactIdGeneratorRepository.class,
-                new SingletonRepository<>(new SnowflakeIdGenerator(1L) {
-                }));
+                new SnowflakeIdGenerator(1L) {
+                });
     }
 
     @Process
