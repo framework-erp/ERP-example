@@ -15,8 +15,8 @@ public class AddressBookController {
 
     @RequestMapping("/addcontact")
     @ResponseBody
-    public CommonVO addContact(long id, String name, String phoneNumber) {
-        addressBookService.addContact(id, name, phoneNumber);
+    public CommonVO addContact(String name, String phoneNumber) {
+        addressBookService.addContact(name, phoneNumber);
         return CommonVO.success();
     }
 }
