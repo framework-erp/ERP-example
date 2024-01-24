@@ -36,4 +36,8 @@ public class AddressBookService {
         contactRepository.put(contact);
     }
 
+    @Process
+    public void removeContact(Long id) {
+        contactRepository.remove(id);
+    }
 }

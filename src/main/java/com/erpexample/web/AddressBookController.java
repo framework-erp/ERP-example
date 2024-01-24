@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/addressBook")
+@RequestMapping("/addressbook")
 public class AddressBookController {
 
     @Autowired
@@ -17,6 +17,13 @@ public class AddressBookController {
     @ResponseBody
     public CommonVO addContact(String name, String phoneNumber) {
         addressBookService.addContact(name, phoneNumber);
+        return CommonVO.success();
+    }
+
+    @RequestMapping("/removecontact")
+    @ResponseBody
+    public CommonVO removeContact(Long id) {
+        addressBookService.removeContact(id);
         return CommonVO.success();
     }
 }
