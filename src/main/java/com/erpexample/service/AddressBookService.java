@@ -2,6 +2,7 @@ package com.erpexample.service;
 
 import com.erpexample.entity.Contact;
 import com.erpexample.repository.ContactIdGeneratorRepository;
+import com.erpexample.repository.ContactQueryRepository;
 import com.erpexample.repository.ContactRepository;
 import dml.id.entity.SnowflakeIdGenerator;
 import erp.annotation.Process;
@@ -12,11 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class AddressBookService {
 
     private ContactRepository contactRepository;
     private ContactIdGeneratorRepository contactIdGeneratorRepository;
+
+    @Autowired
+    private ContactQueryRepository contactQueryRepository;
 
     @Autowired
     public AddressBookService(JdbcTemplate jdbcTemplate) {
@@ -39,5 +45,13 @@ public class AddressBookService {
     @Process
     public void removeContact(Long id) {
         contactRepository.remove(id);
+    }
+
+    public Contact getContact(Long id) {
+        return contactQueryRepository.findById(id);
+    }
+
+    public List<Contact> getContactList(String name, int pageNum, int pageSize) {
+        return contactQueryRepository.findAll(name, pageNum, pageSize);
     }
 }

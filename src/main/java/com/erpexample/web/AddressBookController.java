@@ -26,4 +26,16 @@ public class AddressBookController {
         addressBookService.removeContact(id);
         return CommonVO.success();
     }
+
+    @RequestMapping("/getcontactlist")
+    @ResponseBody
+    public CommonVO getContactList(String name, int pageNum, int pageSize) {
+        return CommonVO.success(addressBookService.getContactList(name, pageNum, pageSize));
+    }
+
+    @RequestMapping("/getcontact")
+    @ResponseBody
+    public CommonVO getContact(Long id) {
+        return CommonVO.success(addressBookService.getContact(id));
+    }
 }
