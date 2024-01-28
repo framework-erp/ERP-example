@@ -1,5 +1,6 @@
 package com.erpexample.web;
 
+import com.erpexample.msg.MsgSender;
 import com.erpexample.service.AddressBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,9 @@ public class AddressBookController {
     @Autowired
     private AddressBookService addressBookService;
 
+    @Autowired
+    private MsgSender msgSender;
+
     @RequestMapping("/addcontact")
     @ResponseBody
     public CommonVO addContact(String name, String phoneNumber) {
@@ -24,6 +28,7 @@ public class AddressBookController {
     @ResponseBody
     public CommonVO removeContact(Long id) {
         addressBookService.removeContact(id);
+        msgSender.sendProcess();
         return CommonVO.success();
     }
 
@@ -38,4 +43,27 @@ public class AddressBookController {
     public CommonVO getContact(Long id) {
         return CommonVO.success(addressBookService.getContact(id));
     }
+
+    @RequestMapping("/createcontactgroup")
+    @ResponseBody
+    public CommonVO createContactGroup(String name) {
+        addressBookService.createContactGroup(name);
+        return CommonVO.success();
+    }
+
+    @RequestMapping("/removecontactgroup")
+    @ResponseBody
+    public CommonVO removeContactGroup(Long id) {
+        addressBookService.removeContactGroup(id);
+        return CommonVO.success();
+    }
+
+    @RequestMapping("/putcontactintogroup")
+    @ResponseBody
+    public CommonVO putContactIntoGroup(Long contactId, Long groupId) {
+        addressBookService.putContactIntoGroup(contactId, groupId);
+        return CommonVO.success();
+    }
+
+
 }

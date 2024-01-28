@@ -13,15 +13,6 @@ public class ContactDTO {
     @Column("phoneNumber")
     private String phoneNumber;
 
-    public ContactDTO() {
-    }
-
-    public ContactDTO(Contact contact) {
-        this.id = contact.getId();
-        this.name = contact.getName();
-        this.phoneNumber = contact.getPhoneNumber();
-    }
-
     public Contact toContact() {
         Contact contact = new Contact();
         contact.setId(id);
