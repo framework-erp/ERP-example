@@ -32,6 +32,9 @@ public class AddressBookService {
     private ContactGroupMembershipQueryRepository contactGroupMembershipQueryRepository;
 
     @Autowired
+    private ContactGroupQueryRepository contactGroupQueryRepository;
+
+    @Autowired
     public AddressBookService(JdbcTemplate jdbcTemplate) {
         contactRepository = RepositoryFactory.newInstance(ContactRepository.class,
                 new MySQLRepository<>(jdbcTemplate, Contact.class));
@@ -101,5 +104,24 @@ public class AddressBookService {
     @Process
     public void removeContactGroupMembership(long contactId) {
         contactGroupMembershipRepository.remove(contactId);
+    }
+
+    public List<ContactGroupMembership> getContactGroupMembershipListByContactGroup(long groupId) {
+        return contactGroupMembershipQueryRepository.findAllByContactGroupId(groupId);
+    }
+
+    @Process
+    public void removeContactFromGroup(Long contactId, Long groupId) {
+        ContactGroupMembership contactGroupMembership
+                = contactGroupMembershipQueryRepository.findByContactIdAndContactGroupId(contactId, groupId);
+        contactGroupMembershipRepository.remove(contactGroupMembership.getId());
+    }
+
+    public List<ContactGroup> getContactGroupList() {
+        return contactGroupQueryRepository.findAll();
+    }
+
+    public List<Contact> getContactListByGroup(Long groupId) {
+        return contactQueryRepository.findAllByGroupId(groupId);
     }
 }

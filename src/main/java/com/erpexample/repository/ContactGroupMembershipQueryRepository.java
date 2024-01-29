@@ -24,4 +24,24 @@ public class ContactGroupMembershipQueryRepository {
         }
         return contactGroupMembershipList;
     }
+
+    public List<ContactGroupMembership> findAllByContactGroupId(long groupId) {
+        List<ContactGroupMembershipDTO> dtoList =
+                contactGroupMembershipDTORepository.findAllByContactGroupId(groupId);
+        List<ContactGroupMembership> contactGroupMembershipList = new ArrayList<>();
+        for (ContactGroupMembershipDTO dto : dtoList) {
+            contactGroupMembershipList.add(dto.toContactGroupMembership());
+        }
+        return contactGroupMembershipList;
+    }
+
+    public ContactGroupMembership findByContactIdAndContactGroupId(Long contactId, Long groupId) {
+        ContactGroupMembershipDTO dto =
+                contactGroupMembershipDTORepository.findOneByContactIdAndContactGroupId(contactId, groupId);
+        if (dto == null) {
+            return null;
+        } else {
+            return dto.toContactGroupMembership();
+        }
+    }
 }

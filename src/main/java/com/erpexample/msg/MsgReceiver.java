@@ -1,6 +1,7 @@
 package com.erpexample.msg;
 
 import com.erpexample.entity.Contact;
+import com.erpexample.entity.ContactGroup;
 import com.erpexample.entity.ContactGroupMembership;
 import com.erpexample.service.AddressBookService;
 import com.google.common.eventbus.Subscribe;
@@ -17,7 +18,7 @@ public class MsgReceiver {
     private AddressBookService addressBookService;
 
     @Subscribe
-    public void updateGroupAfterContactRemoved(Process process) throws InterruptedException {
+    public void removeMembershipAfterContactRemoved(Process process) throws InterruptedException {
         if (!process.getName().equals("com.erpexample.service.AddressBookService.removeContact")) {
             return;
         }
@@ -29,5 +30,20 @@ public class MsgReceiver {
             Thread.sleep(1L);
         }
     }
+
+    @Subscribe
+    public void removeMembershipAfterGroupRemoved(Process process) throws InterruptedException {
+        if (!process.getName().equals("com.erpexample.service.AddressBookService.removeContactGroup")) {
+            return;
+        }
+        ContactGroup contactGroup = (ContactGroup) process.getDeletedEntityList().get(0).getEntity();
+        List<ContactGroupMembership> contactGroupMembershipList =
+                addressBookService.getContactGroupMembershipListByContactGroup(contactGroup.getId());
+        for (ContactGroupMembership contactGroupMembership : contactGroupMembershipList) {
+            addressBookService.removeContactGroupMembership(contactGroupMembership.getId());
+            Thread.sleep(1L);
+        }
+    }
+
 
 }

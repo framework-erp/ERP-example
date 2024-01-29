@@ -55,6 +55,7 @@ public class AddressBookController {
     @ResponseBody
     public CommonVO removeContactGroup(Long id) {
         addressBookService.removeContactGroup(id);
+        msgSender.sendProcess();
         return CommonVO.success();
     }
 
@@ -65,5 +66,23 @@ public class AddressBookController {
         return CommonVO.success();
     }
 
+    @RequestMapping("/removecontactfromgroup")
+    @ResponseBody
+    public CommonVO removeContactFromGroup(Long contactId, Long groupId) {
+        addressBookService.removeContactFromGroup(contactId, groupId);
+        return CommonVO.success();
+    }
+
+    @RequestMapping("/getcontactgrouplist")
+    @ResponseBody
+    public CommonVO getContactGroupList() {
+        return CommonVO.success(addressBookService.getContactGroupList());
+    }
+
+    @RequestMapping("/getcontactlistbygroup")
+    @ResponseBody
+    public CommonVO getContactListByGroup(Long groupId) {
+        return CommonVO.success(addressBookService.getContactListByGroup(groupId));
+    }
 
 }

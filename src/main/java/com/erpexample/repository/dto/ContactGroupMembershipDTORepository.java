@@ -8,4 +8,8 @@ import java.util.List;
 @Repository
 public interface ContactGroupMembershipDTORepository extends CrudRepository<ContactGroupMembershipDTO, Long> {
     List<ContactGroupMembershipDTO> findAllByContactId(long contactId);
+
+    List<ContactGroupMembershipDTO> findAllByContactGroupId(long groupId);
+
+    ContactGroupMembershipDTO findOneByContactIdAndContactGroupId(Long contactId, Long groupId);
 }
